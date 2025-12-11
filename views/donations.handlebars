@@ -1,0 +1,53 @@
+<div class="page-header">
+    <h2 style="color: var(--primary-color); font-weight: 700;">捐赠资金管理</h2>
+    <button id="add-btn" class="add-btn"><i class="fa-solid fa-hand-holding-dollar"></i> 录入新捐赠</button>
+</div>
+
+<div class="content-card">
+    <table id="donations-table">
+        <tr class="table-header">
+            <th>编号</th>
+            <th>捐赠人</th>
+            <th>金额 (元)</th>
+            <th>日期</th>
+            <th>备注</th>
+        </tr>
+        {{#each donationData}}
+        {{> donationTableRow}}
+        {{/each}}
+    </table>
+</div>
+
+<div id="info-modal" class="hidden modal-skeleton">
+    <div class="modal-contents" style="width: 500px;">
+        <h2 style="margin-bottom: 20px; color: var(--primary-color);">捐赠详情</h2>
+        <div class="modal-body" style="grid-template-columns: 1fr;">
+            <div id="donation-info">
+                <p class="label id">记录编号</p>
+                <p class="data id" style="background: #eee; padding: 5px;">(自动生成)</p>
+
+                <label for="patron-dropdown">捐赠人 <span style="color:red">*</span></label>
+                <select id="patron-dropdown" class="dropdown-wrapper" style="width:100%">
+                    {{#each patrons}}
+                    <option value="{{this.patronID}}">{{this.firstName}} {{this.lastName}}</option>
+                    {{/each}}
+                </select>
+
+                <label for="amount">金额 <span style="color:red">*</span></label>
+                <input type="number" id="amount" placeholder="0.00" autocomplete="off">
+
+                <label for="date">日期 <span style="color:red">*</span></label>
+                <input type="date" id="date" autocomplete="off">
+
+                <label for="note">备注</label>
+                <input type="text" id="note" placeholder="例如：用于购买狗粮" autocomplete="off">
+            </div>
+        </div>
+        <div class="modal-btn-wrapper">
+            <button class="close-modal-btn modal-btn btn-secondary">取消</button>
+            <button id="confirm-btn" class="modal-btn btn-primary">确认添加</button>
+            <button id="update-btn" class="modal-btn btn-primary hidden">保存修改</button>
+            <button id="delete-btn" class="modal-btn btn-danger">删除记录</button>
+        </div>
+    </div>
+</div>

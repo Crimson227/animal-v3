@@ -1,0 +1,104 @@
+<div class="login-container" style="height: 80vh; display: flex; align-items: center; justify-content: center;">
+    <div class="content-card"
+        style="width: 400px; padding: 40px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+
+        <div
+            style="width: 80px; height: 80px; background: linear-gradient(135deg, #2A9D8F, #E9C46A); border-radius: 20px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 40px;">
+            <i class="fa-solid fa-shield-cat"></i>
+        </div>
+
+        <h2 style="color: #264653; margin-bottom: 10px;">管理员登录</h2>
+        <p style="color: #718096; font-size: 14px; margin-bottom: 30px;">流浪动物智慧管理平台</p>
+
+        <div style="text-align: left;">
+            <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #4A5568;">账号</label>
+            <input type="text" id="username" placeholder="admin"
+                style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px; margin-bottom: 20px; background: #F7FAFC;">
+
+            <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #4A5568;">密码</label>
+            <input type="password" id="password" placeholder="••••••"
+                style="width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px; margin-bottom: 30px; background: #F7FAFC;">
+        </div>
+
+        <button id="login-btn" class="btn"
+            style="width: 100%; background: #2A9D8F; color: white; font-weight: bold; padding: 12px; border-radius: 30px; justify-content: center;">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i> 安全登录
+        </button>
+
+        <div style="margin-top: 20px; font-size: 12px; color: #A0AEC0;">
+            * 仅限授权人员访问，所有操作将被审计
+        </div>
+    </div>
+</div>
+
+<script>
+    // 监听登录按钮点击事件
+    document.getElementById('login-btn').addEventListener('click', function () {
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+
+        // 简单校验非空
+        if (!user || !pass) {
+            alert("请输入账号和密码");
+            return;
+        }
+
+        // 修改按钮状态，防止重复点击
+        const originalBtnText = this.innerHTML;
+        this.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 验证中...';
+        this.style.opacity = '0.8';
+        this.disabled = true;
+
+        // 发送 POST 请求给后端进行数据库验证
+        fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: user, password: pass })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // 1. 登录成功
+                    this.innerHTML = '<i class="fa-solid fa-check"></i> 验证通过';
+                    // 延迟跳转，给用户一点视觉反馈
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 800);
+                } else {
+                    // 2. 登录失败 (账号或密码错误)
+                    alert('账号或密码错误（数据库验证失败）！');
+                    // 恢复按钮状态
+                    this.innerHTML = originalBtnText;
+                    this.style.opacity = '1';
+                    this.disabled = false;
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('登录请求出错，请检查服务器连接');
+                // 恢复按钮状态
+                this.innerHTML = originalBtnText;
+                this.style.opacity = '1';
+                this.disabled = false;
+            });
+    });
+
+    // 页面加载完成后，隐藏侧边栏和顶部栏 (保持登录页的独立感)
+    document.addEventListener("DOMContentLoaded", function () {
+        const nav = document.getElementById('navbar');
+        const header = document.getElementById('top-bar');
+        const footer = document.getElementById('main-footer');
+
+        if (nav) nav.style.display = 'none';
+        if (header) header.style.display = 'none';
+        if (footer) footer.style.display = 'none';
+
+        // 调整主容器样式，使其全屏居中
+        const main = document.getElementById('main-container');
+        if (main) {
+            main.style.padding = '0';
+            main.style.height = '100vh';
+            main.style.background = '#f0f2f5'; // 浅灰背景
+        }
+    });
+</script>

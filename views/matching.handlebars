@@ -1,0 +1,44 @@
+<div class="page-header">
+    <h2 style="color: var(--primary-color); font-weight: 800;">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> AI 智能领养匹配
+    </h2>
+    <div style="font-size: 14px; color: #666;">
+        基于多维度加权算法，为爱心人士推荐最匹配的动物伙伴。
+    </div>
+</div>
+
+<div class="content-card"
+    style="margin-bottom: 20px; padding: 20px; background: #F0FDFA; border-left: 5px solid var(--primary-color);">
+    <label style="font-weight: bold; margin-right: 10px;">选择待匹配用户:</label>
+    <select id="patron-select" class="dropdown-wrapper" style="width: 300px;">
+        <option value="" selected disabled>请选择一位用户...</option>
+        {{#each patrons}}
+        <option value="{{this.patronID}}">
+            {{this.firstName}} {{this.lastName}} (偏好: {{this.preferredSpecies}}/{{this.preferredSize}})
+        </option>
+        {{/each}}
+    </select>
+    <button id="run-match-btn" class="add-btn" style="margin-left: 10px;">
+        <i class="fa-solid fa-microchip"></i> 运行匹配算法
+    </button>
+</div>
+
+<div class="content-card">
+    <h3 style="margin-bottom: 15px; color: #264653;">
+        <i class="fa-solid fa-list-ol"></i> 推荐结果 (Top 5)
+    </h3>
+    <table id="match-table">
+        <tr class="table-header">
+            <th>匹配度</th>
+            <th>动物名称</th>
+            <th>物种</th>
+            <th>品种</th>
+            <th>照片</th>
+        </tr>
+        <tbody id="match-results-body">
+            <tr>
+                <td colspan="5" style="text-align:center; color:#999;">请选择用户并点击运行...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

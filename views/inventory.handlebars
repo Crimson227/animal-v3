@@ -1,0 +1,54 @@
+<div class="page-header">
+    <h2 style="color: var(--primary-color); font-weight: 700;">收容所物资库存</h2>
+    <button id="add-btn" class="add-btn"><i class="fa-solid fa-boxes-stacked"></i> 物资入库</button>
+</div>
+
+<div class="content-card">
+    <table id="inventory-table">
+        <tr class="table-header">
+            <th>编号</th>
+            <th>物品名称</th>
+            <th>类别</th>
+            <th>库存数量</th>
+            <th>单位</th>
+        </tr>
+        {{#each inventoryData}}
+        {{> inventoryTableRow}}
+        {{/each}}
+    </table>
+</div>
+
+<div id="info-modal" class="hidden modal-skeleton">
+    <div class="modal-contents" style="width: 400px;">
+        <h2 style="margin-bottom: 20px; color: var(--primary-color);">物资详情</h2>
+        <div class="modal-body" style="grid-template-columns: 1fr;">
+            <div id="inventory-input">
+                <p class="label id">编号</p>
+                <p class="data id" style="background: #eee; padding: 5px;">(自动)</p>
+
+                <label for="itemName">物品名称 <span style="color:red">*</span></label>
+                <input type="text" id="itemName" autocomplete="off">
+
+                <label for="category">类别</label>
+                <select id="category" class="dropdown-wrapper" style="width:100%">
+                    <option value="食物">食物</option>
+                    <option value="医疗">医疗</option>
+                    <option value="清洁">清洁</option>
+                    <option value="其他">其他</option>
+                </select>
+
+                <label for="quantity">数量 <span style="color:red">*</span></label>
+                <input type="number" id="quantity" autocomplete="off">
+
+                <label for="unit">单位</label>
+                <input type="text" id="unit" placeholder="如：袋、箱" autocomplete="off">
+            </div>
+        </div>
+        <div class="modal-btn-wrapper">
+            <button class="close-modal-btn modal-btn btn-secondary">取消</button>
+            <button id="confirm-btn" class="modal-btn btn-primary">入库</button>
+            <button id="update-btn" class="modal-btn btn-primary hidden">更新库存</button>
+            <button id="delete-btn" class="modal-btn btn-danger">删除</button>
+        </div>
+    </div>
+</div>
