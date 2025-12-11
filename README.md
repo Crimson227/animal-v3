@@ -1,4 +1,4 @@
-# 🐾 流浪动物智慧管理平台 (Smart Animal Shelter Management System V2.0)
+# 🐾 流浪动物智慧管理平台 (Smart Animal Shelter Management System)
 
 > **集成 AI 智能匹配、供应链金融 (SCM) 及 BI 数据决策的全栈式解决方案。**
 >
